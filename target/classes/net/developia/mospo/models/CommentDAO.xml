@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.developia.mospo.models.CommentDAO">	
+	<select id="getCommentlist" parameterType="Long" resultType="CommentDTO">
+		select *
+		from moviecomment 
+		where movie_id = #{movie_id}
+	</select>
+	
+	<select id="selectComment" parameterType="CommentDTO" resultType="Int">
+		select count(*) as cnt
+		from moviecomment
+		where member_id =#{member_id} and movie_id =#{movie_id} and category = #{category}
+	</select>
+	
+	<insert id="insertComment" parameterType="CommentDTO">
+		insert into moviecomment(id,content,category,movie_id,member_id) 
+		values(sq_moviecomment.nextval,#{content},#{category},#{movie_id},#{member_id})
+	</insert>
+	
+	<update id="editComment" parameterType="CommentDTO">
+		update moviecomment set content = #{content} 
+		where category = #{category} and movie_id = #{movie_id} and member_id = #{member_id}
+	</update>
+	
+	<delete id="deleteComment" parameterType="CommentDTO">
+		delete from moviecomment 
+		where category = #{category} and movie_id = #{movie_id} and member_id = #{member_id}
+	</delete>
+</mapper>
